@@ -21,19 +21,23 @@ def simple_calculator(operation: str, num1: float, num2: float) -> float:
 
     Returns:
         float: The result of the operation.
+        
+    Raises:
+        ValueError: If dividing by zero or if the operation is invalid.
     """
-
+    
     if operation == "add":
         return num1 + num2
     elif operation == "subtract":
         return num1 - num2
     elif operation == "multiply":
         return num1 * num2
+    elif operation == "divide":
+        if num2 == 0:
+            raise ValueError("Cannot divide by zero.")
+        return num1 / num2
     else:
-        if num2 != 0:
-            return num1 / num2
-        else:
-            return float('inf')
+        raise ValueError("Invalid operation. Please choose from 'add', 'subtract', 'multiply', or 'divide'.")
     
 
 def request_santized_number(prompt: str) -> float:
