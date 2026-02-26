@@ -29,13 +29,12 @@ def simple_calculator(operation: str, num1: float, num2: float) -> float:
         return num1 - num2
     elif operation == "multiply":
         return num1 * num2
-    elif operation == "divide":
+    else:
         if num2 != 0:
             return num1 / num2
         else:
-            raise ValueError("Cannot divide by zero.")
-    else:
-        raise ValueError("Invalid operation. Please choose from 'add', 'subtract', 'multiply', or 'divide'.")
+            return float('inf')
+    
 
 def request_santized_number(prompt: str) -> float:
     while True:
@@ -46,14 +45,36 @@ def request_santized_number(prompt: str) -> float:
             print("Invalid input. Please enter a valid number.")
 
 
+def request_santized_operation(prompt: str) -> str:
+    valid_operations = ("add", "subtract", "multiply", "divide")
+    while True:
+        op = input(prompt).strip().lower()
+        if op in valid_operations:
+            return op
+        print("Invalid operation. Please choose from 'add', 'subtract', 'multiply', or 'divide'.")
+
+
+def request_santized_nonzero_number(prompt: str) -> float:
+    while True:
+        num = request_santized_number(prompt)
+        if num != 0:
+            return num
+        print("Invalid input. For division, the second number cannot be zero.")
+
+
 def main():
     
     print(f"===== Simple Calculator =====")
 
-    # Ask the user for sample input    
+    # Ask the user for sample input
     num1 = request_santized_number("Enter the first number: ")
-    num2 = request_santized_number("Enter the second number: ")
-    operation = input("Enter the operation (add, subtract, multiply, divide): ").strip().lower()
+    operation = request_santized_operation("Enter the operation (add, subtract, multiply, divide): ")
+
+    # If dividing, ensure second number is non-zero
+    if operation == "divide":
+        num2 = request_santized_nonzero_number("Enter the second number (non-zero): ")
+    else:
+        num2 = request_santized_number("Enter the second number: ")
 
     # Perform the calculation and display the result
     result = simple_calculator(operation, num1, num2)
